@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  terabox-bot:
+    build: .
+    container_name: terabox-bot
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - ADMIN_IDS=${ADMIN_IDS}
+      - LOG_LEVEL=INFO
+      - PROXY_URL=${PROXY_URL:-}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+
+networks:
+  bot-network:
+    driver: bridge
